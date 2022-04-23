@@ -1,4 +1,6 @@
-public class Paciente extends Pessoa {
+import java.io.Serializable;
+
+public class Paciente extends Pessoa implements Serializable {
     private String endereco;
     private String email;
 
