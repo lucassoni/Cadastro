@@ -1,3 +1,4 @@
+
 public class Medico extends Pessoa {
     private String endereco;
 
@@ -23,5 +24,6 @@ public class Medico extends Pessoa {
 
         System.out.println("Endereco: ");
         System.out.println(getEndereco());
+        System.out.println();
     }
 }

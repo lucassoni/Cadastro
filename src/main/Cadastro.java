@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.Scanner;
 import java.io.FileOutputStream;
@@ -59,7 +60,9 @@ public class Cadastro {
 
     private static void WriteObjectToFile(Object serObj, String filepath) {
         try {
-            FileOutputStream fileOut = new FileOutputStream(filepath);
+            File file = new File(filepath);
+            file.getParentFile().mkdirs();
+            FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(serObj);
             objectOut.close();

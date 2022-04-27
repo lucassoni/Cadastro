@@ -1,3 +1,4 @@
+
 public class Familiar extends Pessoa {
     public Familiar(String nome, String telefone) {
         super(nome, telefone);

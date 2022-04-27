@@ -1,11 +1,11 @@
-files = Cadastro.class Familiar.class Medico.class Paciente.class Pessoa.class App.class
+files = Cadastro.class Familiar.class Medico.class Paciente.class Pessoa.class App.class Listagem.class Consulta.class Exame.class
 
 all: $(files)
 
-App.class: App.java Cadastro.class Familiar.class Medico.class Paciente.class
+App.class: App.java Cadastro.class Familiar.class Medico.class Paciente.class Listagem.class Consulta.class Exame.class
 	javac App.java
 
-Cadastro.class: Cadastro.java Paciente.class Familiar.class Paciente.class
+Cadastro.class: Cadastro.java Paciente.class Familiar.class Paciente.class Listagem.class Consulta.class Exame.class
 	javac Cadastro.java
 
 Familiar.class: Familiar.java 
@@ -19,6 +19,15 @@ Paciente.class: Paciente.java
 
 Pessoa.class: Pessoa.java 
 	javac Pessoa.java
+
+Listagem.class: Listagem.java
+	javac Listagem.java
+	
+Consulta.class: Consulta.java 
+	javac Consulta.java
+
+Exame.class: Exame.java	
+	javac Exame.java
 
 purge: 
 	rm -f $(files)
