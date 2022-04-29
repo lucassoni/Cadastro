@@ -3,11 +3,13 @@ import java.io.Serializable;
 public class Paciente extends Pessoa implements Serializable {
     private String endereco;
     private String email;
+    private String imagem;
 
-    public Paciente(String nome, String telefone, String endereco, String email) {
+    public Paciente(String nome, String telefone, String endereco, String email, String imagem) {
         super(nome, telefone);
         this.endereco = endereco;
         this.email = email;
+        this.imagem = imagem;
     }
 
     public void setEndereco(String endereco) {
@@ -24,6 +26,14 @@ public class Paciente extends Pessoa implements Serializable {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 
     public void imprimePaciente() {

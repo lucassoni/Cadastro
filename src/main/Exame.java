@@ -1,23 +1,24 @@
 import java.util.Date;
+import java.util.Calendar;
 
 public class Exame {
-    private Date data;
+    private Calendar data;
     private String resultado;
     private String[] imagens;
     private String[] videos;
 
-    public Exame(Date data, String resultado, String[] imagens, String[] videos) {
+    public Exame(Calendar data, String resultado, String[] imagens, String[] videos) {
         this.data = data;
         this.resultado = resultado;
         this.imagens = imagens;
         this.videos = videos;
     }
 
-    public Date getData() {
+    public Calendar getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(Calendar data) {
         this.data = data;
     }
 
@@ -44,5 +45,5 @@ public class Exame {
     public void setVideos(String[] videos) {
         this.videos = videos;
     }
-    
+
 }
