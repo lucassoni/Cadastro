@@ -14,7 +14,7 @@ public class Consulta implements Serializable {
     }
 
     public Medico getMedico() {
-        return medico;
+        return this.medico;
     }
 
     public void setMedico(Medico medico) {
@@ -22,7 +22,7 @@ public class Consulta implements Serializable {
     }
 
     public Calendar getData() {
-        return data;
+        return this.data;
     }
 
     public void setData(Calendar data) {
@@ -30,7 +30,7 @@ public class Consulta implements Serializable {
     }
 
     public String getDiagnostico() {
-        return diagnostico;
+        return this.diagnostico;
     }
 
     public void setDiagnostico(String diagnostico) {
@@ -38,7 +38,7 @@ public class Consulta implements Serializable {
     }
 
     public String getPrescricoes() {
-        return prescricoes;
+        return this.prescricoes;
     }
 
     public void setPrescricoes(String prescricoes) {
@@ -49,18 +49,40 @@ public class Consulta implements Serializable {
 
         int minuto = this.data.get(Calendar.MINUTE);
 
-        if (minuto < 10) {
-            System.out.println(String.format("Consulta com o Dr. %s, na data %d/%d/%d as %d:%02d\n",
-                    this.medico.getNome(),
-                    this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH), this.data.get(Calendar.YEAR),
-                    this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE)));
-        } else {
-            System.out.println(String.format("Consulta com o Dr. %s, na data %d/%d/%d as %d:%d\n",
-                    this.medico.getNome(),
-                    this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH), this.data.get(Calendar.YEAR),
-                    this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE)));
-        }
+        // if (minuto < 10) {
+        // System.out.println(String.format("Consulta com o Dr. %s, na data %d/%d/%d as
+        // %d:%02d\n",
+        // this.medico.getNome(),
+        // this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH) + 1,
+        // this.data.get(Calendar.YEAR),
+        // this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE)));
+        // } else {
+        // System.out.println(String.format("Consulta com o Dr. %s, na data %d/%d/%d as
+        // %d:%d\n",
+        // this.medico.getNome(),
+        // this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH) + 1,
+        // this.data.get(Calendar.YEAR),
+        // this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE)));
+        // }
 
+        if (minuto < 10) {
+            System.out.println(
+                    String.format(
+                            "Consulta com o Dr. %s, na data %d/%d/%d as %d:%02d\nDiagnostico: %s\nPrescricao: %s\n",
+                            this.medico.getNome(),
+                            this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH) + 1,
+                            this.data.get(Calendar.YEAR),
+                            this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE),
+                            this.diagnostico, this.prescricoes));
+        } else {
+            System.out.println(
+                    String.format("Consulta com o Dr. %s, na data %d/%d/%d as %d:%d\nDiagnostico: %s\nPrescricao: %s\n",
+                            this.medico.getNome(),
+                            this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH) + 1,
+                            this.data.get(Calendar.YEAR),
+                            this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE),
+                            this.diagnostico, this.prescricoes));
+        }
     }
 
 }

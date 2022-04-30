@@ -1,12 +1,15 @@
-files = Cadastro.class Familiar.class Medico.class Paciente.class Pessoa.class App.class Listagem.class Consulta.class Exame.class InfoEme.class
+files = Cadastro.class Familiar.class Medico.class Paciente.class Pessoa.class App.class Listagem.class Consulta.class Exame.class InfoEme.class Edicao.class
 
 all: $(files)
 
-App.class: App.java Cadastro.class Familiar.class Medico.class Paciente.class Listagem.class Consulta.class Exame.class InfoEme.class
+App.class: App.java Cadastro.class Familiar.class Medico.class Paciente.class Listagem.class Consulta.class Exame.class InfoEme.class Edicao.class
 	javac App.java
 
-Cadastro.class: Cadastro.java Paciente.class Familiar.class Paciente.class Listagem.class Consulta.class Exame.class InfoEme.class
+Cadastro.class: Cadastro.java Paciente.class Familiar.class Paciente.class Listagem.class Consulta.class Exame.class InfoEme.class Edicao.class
 	javac Cadastro.java
+
+Edicao.class: Edicao.java
+	javac Edicao.java
 
 Familiar.class: Familiar.java 
 	javac Familiar.java

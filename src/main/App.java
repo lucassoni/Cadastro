@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Calendar;
+import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -8,8 +9,9 @@ public class App {
         Listagem listagem = new Listagem();
         listagem.carregarMedicos();
         listagem.carregarFamiliares();
-        listagem.carregarInfoEme();
         listagem.carregarConsultas();
+        listagem.procuraConsultasDoDia();
+        listagem.procuraConsultasExpiradas();
         while (true) {
             System.out.printf(
                     "Bem vindo %s\nPara cadastrar um familiar digite 1\nPara cadastrar um medico digite 2\nPara listar os medicos digite 3\nPara acessar o menu de consultas digite 4\nPara acessar o menu de info emergenciais 5\nPara sair digite 6\n",
@@ -43,14 +45,15 @@ public class App {
                                 listagem.listaConsultas();
                                 break;
                             case 2:
-                                // editar consultas cadastradas
+                                Edicao.menuEdicaoConsulta(sc, listagem);
                                 break;
                             case 3:
                                 Consulta consulta = Cadastro.leConsulta(sc, listagem);
                                 consulta.imprimeConsulta();
                                 break;
                             case 4:
-                                // para upload de resultados
+                                ArrayList<Consulta> consultas = listagem.resgataConsultasExpiradas();
+                                Edicao.menuUpload(sc, listagem, consultas);
                                 break;
                             case 5:
                                 sair = true;
@@ -64,19 +67,22 @@ public class App {
                     sair = false;
                     while (!sair) {
                         System.out.printf(
-                                "\nPara cadastrar uma informacao emergencial/necessidades/cuidados digite 1\nPara editar informacao emergencial/necessidades/cuidados digite 2\nPara remover informacao emergencial/necessidades/cuidados digite 3\nPara voltar ao menu inicial digite 4\n");
+                                "\nPara cadastrar informacao emergencial/necessidades/cuidados digite 1\nPara editar informacao emergencial/necessidades/cuidados digite 2\nPara remover informacao emergencial/necessidades/cuidados digite 3\nPara voltar ao menu inicial digite 4\n");
                         int optionInfo = sc.nextInt();
                         sc.nextLine();
                         switch (optionInfo) {
                             case 1:
                                 InfoEme inf = Cadastro.leInfoEme(sc);
+                                System.out.println("Informacao cadastrada: ");
                                 inf.imprimeInfoEme();
                                 break;
                             case 2:
-                                // editar info cadastradas
+                                InfoEme edit = new InfoEme();
+                                edit.edita(sc, listagem);
                                 break;
                             case 3:
-                                listagem.listaInfoEme();
+                                InfoEme deleter = new InfoEme();
+                                deleter.deleta(sc, listagem);
                                 break;
                             case 4:
                                 sair = true;

@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -41,6 +42,14 @@ public class Listagem {
 
     public ArrayList<Medico> getMedicos() {
         return medicos;
+    }
+
+    public ArrayList<Consulta> getConsultas() {
+        return consultas;
+    }
+
+    public ArrayList<InfoEme> getInfoEme() {
+        return infoeme;
     }
 
     public void carregarConsultas() {
@@ -132,6 +141,56 @@ public class Listagem {
             i.imprimeInfoEme();
             cont++;
         }
+    }
+
+    public void procuraConsultasDoDia() {
+        Calendar hoje = Calendar.getInstance();
+        ArrayList<Consulta> consultasHoje = new ArrayList<Consulta>();
+        for (Consulta c : this.consultas) {
+            if (c.getData().get(Calendar.YEAR) == hoje.get(Calendar.YEAR) &&
+                    c.getData().get(Calendar.MONTH) == hoje.get(Calendar.MONTH) &&
+                    c.getData().get(Calendar.DAY_OF_MONTH) == hoje.get(Calendar.DAY_OF_MONTH) &&
+                    c.getData().get(Calendar.HOUR_OF_DAY) >= hoje.get(Calendar.HOUR_OF_DAY) &&
+                    c.getData().get(Calendar.MINUTE) > hoje.get(Calendar.MINUTE)) {
+                consultasHoje.add(c);
+            }
+        }
+        if (!consultasHoje.isEmpty()) {
+            System.out.println("Estas consultas estao marcadas para hoje:");
+            for (Consulta c : consultasHoje) {
+                c.imprimeConsulta();
+            }
+        } else {
+            System.out.println("Nao existem consultas marcadas para hoje");
+        }
+    }
+
+    public void procuraConsultasExpiradas() {
+        Calendar hoje = Calendar.getInstance();
+        ArrayList<Consulta> consultasExpiradas = new ArrayList<Consulta>();
+        for (Consulta c : this.consultas) {
+            if (c.getData().before(hoje)) {
+                consultasExpiradas.add(c);
+            }
+        }
+        if (!consultasExpiradas.isEmpty()) {
+            System.out.println("Estas consultas estao expiradas:");
+            for (Consulta c : consultasExpiradas) {
+                c.imprimeConsulta();
+            }
+            System.out.println("Favor fazer upload do diagnostico e das prescricoes dessas consultas!\n");
+        }
+    }
+
+    public ArrayList<Consulta> resgataConsultasExpiradas() {
+        Calendar hoje = Calendar.getInstance();
+        ArrayList<Consulta> consultasExpiradas = new ArrayList<Consulta>();
+        for (Consulta c : this.consultas) {
+            if (c.getData().before(hoje)) {
+                consultasExpiradas.add(c);
+            }
+        }
+        return consultasExpiradas;
     }
 
     public static void DisplayImage(String image) throws IOException {

@@ -324,7 +324,7 @@ public class Cadastro {
     }
 
     public static InfoEme leInfoEme(Scanner sc) {
-        System.out.println("Digite a info emergencial: ");
+        System.out.println("Digite a informacao a ser cadastrada: ");
         String texto = sc.nextLine();
 
         InfoEme info = new InfoEme(texto);

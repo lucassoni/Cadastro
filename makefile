@@ -1,4 +1,4 @@
-files = Cadastro.class Familiar.class Medico.class Paciente.class Pessoa.class App.class
+files = Cadastro.class Familiar.class Medico.class Paciente.class Pessoa.class App.class Listagem.class InfoEme.class Edicao.java
 dir = src/main/
 
 all: 

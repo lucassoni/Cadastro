@@ -11,4 +11,5 @@ public class Familiar extends Pessoa {
         System.out.println("Telefone: ");
         System.out.println(getTelefone());
     }
+
 }
