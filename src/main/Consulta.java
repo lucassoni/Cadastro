@@ -46,10 +46,21 @@ public class Consulta implements Serializable {
     }
 
     public void imprimeConsulta() {
-        System.out.println(String.format("Consulta com o Dr. %s, na data %d/%d/%d as %d:%d\n",
-                this.medico.getNome(),
-                this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH), this.data.get(Calendar.YEAR),
-                this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE)));
+
+        int minuto = this.data.get(Calendar.MINUTE);
+
+        if (minuto < 10) {
+            System.out.println(String.format("Consulta com o Dr. %s, na data %d/%d/%d as %d:%02d\n",
+                    this.medico.getNome(),
+                    this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH), this.data.get(Calendar.YEAR),
+                    this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE)));
+        } else {
+            System.out.println(String.format("Consulta com o Dr. %s, na data %d/%d/%d as %d:%d\n",
+                    this.medico.getNome(),
+                    this.data.get(Calendar.DAY_OF_MONTH), this.data.get(Calendar.MONTH), this.data.get(Calendar.YEAR),
+                    this.data.get(Calendar.HOUR_OF_DAY), this.data.get(Calendar.MINUTE)));
+        }
+
     }
 
 }

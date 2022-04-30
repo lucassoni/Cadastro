@@ -126,13 +126,7 @@ public class Cadastro {
         data.set(Calendar.HOUR_OF_DAY, hora);
 
         int minuto = Integer.parseInt(horarioSeparado[1]);
-
-        data.set(Calendar.MINUTE, 00);
         data.set(Calendar.MINUTE, minuto);
-
-        // System.out
-        // .println(String.format("%d/%d/%d as %d:%d", dia, mes + 1, ano, hora,
-        // minuto));
 
         return data;
     }
