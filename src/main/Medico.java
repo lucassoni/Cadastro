@@ -39,7 +39,8 @@ public class Medico extends Pessoa {
         try {
             Listagem.DisplayImage(this.imagem);
         } catch (Exception e) {
-            System.out.println(e);
+            //Display stack trace
+            e.printStackTrace();
         }
     }
 

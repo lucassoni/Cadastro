@@ -1,14 +1,14 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+
 
 public class Listagem {
     private ArrayList<Medico> medicos = new ArrayList<Medico>();
@@ -53,7 +53,7 @@ public class Listagem {
     }
 
     public void carregarConsultas() {
-        File file = new File("../../localStorage/consultas");
+        File file = new File("./resources/localStorage/consultas");
         if (file.exists()) {
             File[] consultas = file.listFiles();
             for (File c : consultas) {
@@ -63,7 +63,7 @@ public class Listagem {
     }
 
     public void carregarMedicos() {
-        File file = new File("../../localStorage/medicos");
+        File file = new File("./resources/localStorage/medicos");
         if (file.exists()) {
             File[] medicos = file.listFiles();
             for (File m : medicos) {
@@ -73,7 +73,7 @@ public class Listagem {
     }
 
     public void carregarFamiliares() {
-        File file = new File("../../localStorage/familiares");
+        File file = new File("./resources/localStorage/familiares");
         if (file.exists()) {
             File[] familiares = file.listFiles();
             for (File f : familiares) {
@@ -83,7 +83,7 @@ public class Listagem {
     }
 
     public void carregarInfoEme() {
-        File file = new File("../../localStorage/infoeme");
+        File file = new File("./resources/localStorage/infoeme");
         if (file.exists()) {
             File[] infoeme = file.listFiles();
             for (File i : infoeme) {
@@ -191,20 +191,30 @@ public class Listagem {
             }
         }
         return consultasExpiradas;
-    }
+    }   
 
     public static void DisplayImage(String image) throws IOException {
-        System.out.println("imagem path: " + image);
-        BufferedImage img = ImageIO.read(new File(image));
-        ImageIcon icon = new ImageIcon(img);
-        JFrame frame = new JFrame();
-        frame.setLayout(new FlowLayout());
-        frame.setSize(200, 300);
-        JLabel lbl = new JLabel();
-        lbl.setIcon(icon);
-        frame.add(lbl);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        System.out.println("\nCurrent path: " + System.getProperty("user.dir"));
+        System.out.println( "imagem path: " + image);
+        String path = "./resources/"+ image;
+
+        //new File(path);
+        // if(file.exists()) {
+        //     System.out.println("Existe!");
+        //     System.out.println(file.getCanonicalPath());
+        // }
+        BufferedImage img = ImageIO.read(Listagem.class.getResource("./localStorage/imagens/59006_2Q.png"));
+        JLabel picLabel = new JLabel(new ImageIcon(img));
+        // add(picLabel);
+        // ImageIcon icon = new ImageIcon(img);
+        // JFrame frame = new JFrame();
+        // frame.setLayout(new FlowLayout());
+        // frame.setSize(200, 300);
+        // JLabel lbl = new JLabel();
+        // lbl.setIcon(icon);
+        // frame.add(lbl);
+        // frame.setVisible(true);
+        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 }

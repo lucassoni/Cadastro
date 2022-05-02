@@ -41,7 +41,7 @@ public class InfoEme implements Serializable {
         int cont = 1;
         sc.nextLine();
 
-        File file = new File("../../localStorage/infoeme");
+        File file = new File("./resources/localStorage/infoeme");
         File[] infoeme = file.listFiles();
         for (int i = 0; i < infoeme.length; i++) {
             if (cont == ndelete) {
@@ -99,7 +99,7 @@ public class InfoEme implements Serializable {
         int cont = 1;
         sc.nextLine();
 
-        File file = new File("../../localStorage/infoeme");
+        File file = new File("./resources/localStorage/infoeme");
         File[] infoeme = file.listFiles();
         if (nedita <= infoeme.length) {
             for (int i = 0; i < infoeme.length; i++) {

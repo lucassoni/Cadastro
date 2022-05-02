@@ -39,7 +39,7 @@ public class Edicao {
     }
 
     public static File procuraConsulta(Consulta consulta, Listagem listagem) {
-        File file = new File("../../localStorage/consultas");
+        File file = new File("./resources/localStorage/consultas");
         File fileConsulta = null;
         if (file.exists()) {
             File[] consultas = file.listFiles();

@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class Consulta implements Serializable {
     private Medico medico;
     private Calendar data;
-    private String diagnostico = "Consulta ainda nao foi";
-    private String prescricoes = "Consulta ainda nao foi";
+    private String diagnostico = "O diagnóstico ainda não foi cadastrado";
+    private String prescricoes = "As prescrições ainda não foram cadastradas";
 
     public Consulta(Medico medico, Calendar data) {
         this.data = data;

@@ -158,7 +158,7 @@ public class Cadastro {
 
         Random rand = new Random();
 
-        WriteObjectToFile(consulta, "../../localStorage/consultas/" + "consulta" + rand.nextInt(293092039));
+        WriteObjectToFile(consulta, "./resources/localStorage/consultas/" + "consulta" + rand.nextInt(293092039));
 
         return consulta;
     }
@@ -195,7 +195,8 @@ public class Cadastro {
         Random random = new Random();
         int numero = random.nextInt(100000);
         String nomeArquivoNovo = numero + "_" + arquivo.getName();
-        String caminho = "../../localStorage/imagens/" + nomeArquivoNovo;
+        String caminho = "./resources/localStorage/imagens/" + nomeArquivoNovo;
+        String caminhoRetorno = "./localStorage/imagens/" + nomeArquivoNovo;
         File arquivoNovo = new File(caminho);
 
         WriteObjectToFile((Object) arquivo, arquivoNovo.getPath());
@@ -266,7 +267,7 @@ public class Cadastro {
     }
 
     public static Paciente lePaciente(Scanner sc) {
-        Paciente paciente = (Paciente) ReadObjectFromFile("../../localStorage/user");
+        Paciente paciente = (Paciente) ReadObjectFromFile("./resources/localStorage/user");
 
         if (paciente == null) {
             String nome = leNome(sc, "paciente");
@@ -281,7 +282,7 @@ public class Cadastro {
 
             paciente = new Paciente(nome, telefone, endereco, email, imagem);
 
-            WriteObjectToFile(paciente, "../../localStorage/user");
+            WriteObjectToFile(paciente, "./resources/localStorage/user");
         }
         return paciente;
     }
@@ -298,7 +299,7 @@ public class Cadastro {
 
         listagem.addFamiliar(familiar);
 
-        WriteObjectToFile(familiar, "../../localStorage/familiares/" + nome.split(" ")[0] + rand.nextInt(293092039));
+        WriteObjectToFile(familiar, "./resources/localStorage/familiares/" + nome.split(" ")[0] + rand.nextInt(293092039));
 
         return familiar;
     }
@@ -318,7 +319,7 @@ public class Cadastro {
 
         listagem.addMedico(medico);
 
-        WriteObjectToFile(medico, "../../localStorage/medicos/" + nome.split(" ")[0] + rand.nextInt(293092039));
+        WriteObjectToFile(medico, "./resources/localStorage/medicos/" + nome.split(" ")[0] + rand.nextInt(293092039));
 
         return medico;
     }
@@ -331,7 +332,7 @@ public class Cadastro {
 
         Random rand = new Random();
 
-        WriteObjectToFile(info, "../../localStorage/infoeme/" + "ie" + rand.nextInt(293092039));
+        WriteObjectToFile(info, "./resources/localStorage/infoeme/" + "ie" + rand.nextInt(293092039));
 
         return info;
     }
