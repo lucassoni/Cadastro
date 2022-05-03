@@ -10,11 +10,14 @@ public class App {
         listagem.carregarMedicos();
         listagem.carregarFamiliares();
         listagem.carregarConsultas();
+        listagem.carregarExames();
         listagem.procuraConsultasDoDia();
+        listagem.procuraExamesDoDia();
         listagem.procuraConsultasExpiradas();
+        listagem.procuraExamesExpirados();
         while (true) {
             System.out.printf(
-                    "Bem vindo %s\nPara acessar o menu de familiares digite 1\nPara acessar o menu de medicos digite 2\nPara acessar o menu de consultas digite 3\nPara acessar o menu de info emergenciais 4\nPara sair digite 5\n",
+                    "Bem vindo %s\nPara acessar o menu de familiares digite 1\nPara acessar o menu de medicos digite 2\nPara acessar o menu de consultas digite 3\nPara acessar o menu de info emergenciais digite 4\nPara acessar o menu de exames digite 5\nPara sair digite 6\n",
                     user.getNome());
 
             int option = sc.nextInt();
@@ -73,7 +76,11 @@ public class App {
                                                 System.out.printf("\nDigite o numero do medico\n");
                                                 option = sc.nextInt();
                                                 sc.nextLine();
-                                                listagem.getMedicos().get(option - 1).mostraImagem();
+                                                if(option > listagem.getMedicos().size()) {
+                                                    System.out.println("\nNumero invalido\n");
+                                                } else {
+                                                    listagem.getMedicos().get(option - 1).imprimeMedico();
+                                                }
                                                 break;
                                             case 2:
                                                 sair = true;
@@ -161,6 +168,75 @@ public class App {
                     }
                     break;
                 case 5:
+                    sair = false;
+                    while (!sair) {
+                        System.out.printf(
+                                "\nPara visualizar exames cadastrados digite 1\nPara editar exames digite 2\nPara cadastrar novos exames digite 3\nPara fazer upload de resultados de exames, digite 4\nPara voltar ao menu inicial digite 5\n");
+                        int optionConsult = sc.nextInt();
+                        sc.nextLine();
+
+                        switch (optionConsult) {
+                            case 1:
+                                listagem.listaExames();
+                                sair = false;
+                                while (!sair) {
+                                    if(listagem.getExames().size() == 0) {
+                                        System.out.println("\nNenhum exame cadastrado\n");
+                                        sair = true;
+                                    } else {
+                                        System.out.printf("\nPara visualizar a imagem de um exame digite 1\nPara visualizar o video de um exame digite 2\nPara voltar ao menu inicial digite 3\n");
+                                        optionConsult = sc.nextInt();
+                                        sc.nextLine();
+                                        switch (optionConsult) {
+                                            case 1:
+                                                System.out.printf("\nDigite o numero do exame\n");
+                                                option = sc.nextInt();
+                                                sc.nextLine();
+                                                if(option > listagem.getExames().size()) {
+                                                    System.out.println("\nNumero invalido\n");
+                                                } else {
+                                                    listagem.getExames().get(option - 1).mostraImagem();
+                                                }
+                                                break;
+                                            case 2:
+                                                System.out.printf("\nDigite o numero do exame\n");
+                                                option = sc.nextInt();
+                                                sc.nextLine();
+                                                if(option > listagem.getExames().size()) {
+                                                    System.out.println("\nNumero invalido\n");
+                                                } else {
+                                                    listagem.getExames().get(option - 1).mostraVideo();
+                                                }
+                                                break;    
+                                            case 3:
+                                                sair = true;
+                                                break;
+                                            default:
+                                            System.out.println("\nNumero invalido");
+                                        }
+                                    }
+                                }
+                                break;
+                            case 2:
+                                Edicao.menuEdicaoExame(sc, listagem);
+                                break;
+                            case 3:
+                                Exame exame = Cadastro.leExame(sc, listagem);
+                                exame.imprimeExame();
+                                break;
+                            case 4:
+                                ArrayList<Exame> exames = listagem.resgataExamesExpirados();
+                                Edicao.menuUploadExames(sc, listagem, exames);
+                                break;
+                            case 5:
+                                sair = true;
+                                break;
+                            default:
+                                System.out.println("\nNumero invalido");
+                        }
+                    }
+                    break;
+                case 6:
                     return;
                 default:
                     System.out.println("Numero invalido");

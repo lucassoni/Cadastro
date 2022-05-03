@@ -162,6 +162,23 @@ public class Cadastro {
         return consulta;
     }
 
+    public static Exame leExame(Scanner sc, Listagem listagem) {
+        
+        String nome = leNome(sc, "exame");
+
+        Calendar data = leData(sc, "do exame");
+
+        Exame exame = new Exame(nome, data);
+
+        listagem.addExame(exame);
+            
+        Random rand = new Random();
+
+        WriteObjectToFile(exame, "./resources/localStorage/exames/" + "exame" + rand.nextInt(293092039));
+
+        return exame;    
+    }
+
     public static String leEmail(Scanner sc, String membro) {
         System.out.println(String.format("Digite email do %s: ", membro));
         String email = sc.nextLine();
@@ -195,6 +212,32 @@ public class Cadastro {
         int numero = random.nextInt(100000);
         String nomeArquivoNovo = numero + arquivo.getName();
         String caminho = "./resources/localStorage/imagens/" + nomeArquivoNovo;
+        File arquivoNovo = new File(caminho);
+        arquivoNovo.getParentFile().mkdirs();
+        try {
+            Files.copy(arquivo.toPath(), arquivoNovo.toPath());
+        } catch (IOException e) {
+            System.out.println("Erro ao copiar arquivo.");
+            leImagem(sc, membro);
+        }
+
+        return caminho;
+    }
+
+    public static String leVideo(Scanner sc, String membro) {
+        System.out.println(String.format("Digite o caminho do video do %s: ", membro));
+        String nomeArquivo = sc.nextLine();
+
+        File arquivo = new File(nomeArquivo);
+        if (!arquivo.exists()) {
+            System.out.println("Arquivo não encontrado.");
+            leImagem(sc, membro);
+        }
+
+        Random random = new Random();
+        int numero = random.nextInt(100000);
+        String nomeArquivoNovo = numero + arquivo.getName();
+        String caminho = "./resources/localStorage/videos/" + nomeArquivoNovo;
         File arquivoNovo = new File(caminho);
         arquivoNovo.getParentFile().mkdirs();
         try {

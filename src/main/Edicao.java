@@ -246,6 +246,107 @@ public class Edicao {
         return fileMedico;
     }
 
+    public static void menuEdicaoExame(Scanner sc, Listagem listagem) {
+        ArrayList<Exame> exames = listagem.getExames();
+        if(exames.size() == 0) {
+            System.out.println("\nNenhum exame cadastrado\n");
+            return;
+        }
+
+        System.out.println("Escolha o exame a ser editado\n");
+        listagem.listaExames();
+        int option = sc.nextInt();
+        sc.nextLine();
+
+        if(option > exames.size() || option < 1) {
+            System.out.println("\nNumero invalido\n");
+            return;
+        }
+
+        Exame exameEscolhido = exames.get(option - 1);
+
+        System.out.println("\nExame escolhido:\n");
+        exameEscolhido.imprimeExame();
+
+        boolean sair = false;
+        while (!sair) {
+            System.out.println("Quer editar ou cancelar o exame?\nDigite 1 para editar\nDigite 2 para cancelar\n");
+            option = sc.nextInt();
+            sc.nextLine();
+            switch (option) {
+                case 1:
+                    editaExame(sc, exameEscolhido, listagem);
+                    sair = true;
+                    break;
+                case 2:
+                    deletaExame(exameEscolhido, listagem, option - 1);
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Numero invalido");
+            }
+        }
+    }
+
+    public static File procuraExame(Exame exame, Listagem listagem) {
+        File file = new File("./resources/localStorage/exames");
+        File fileExame = null;
+        if (file.exists()) {
+            File[] exames = file.listFiles();
+            for (File c : exames) {
+                Exame candidata = (Exame) ReadObjectFromFile(c.getPath());
+                if (comparaExame(candidata, exame)) {
+                    fileExame = c;
+                }
+            }
+        }
+        return fileExame;
+    }
+
+    public static void deletaExame(Exame exame, Listagem listagem, int index) {
+        File fileExame = procuraExame(exame, listagem);
+        fileExame.delete();
+        if(exame.getImagem() != null){
+            File imagem = new File(exame.getImagem());
+            imagem.delete();
+        }
+        if(exame.getVideo() != null){
+            File video = new File(exame.getVideo());
+            video.delete();
+        }
+
+        ArrayList<Exame> exames = listagem.getExames();
+        exames.clear();
+        listagem.carregarExames();
+    }
+
+    public static void editaExame(Scanner sc, Exame exame, Listagem listagem) {
+        File fileExame = procuraExame(exame, listagem);
+
+        boolean sair = false;
+        while (!sair) {
+            System.out.println(
+                    "Para editar o nome do exame digite 1\nPara editar o horario e data do exame digite 2\n");
+            int option = sc.nextInt();
+            sc.nextLine();
+            switch (option) {
+                case 1:
+                    exame.setNome(Cadastro.leNome(sc, "exame"));
+                    sair = true;
+                    break;
+                case 2:
+                    exame.setData(Cadastro.leData(sc, "do exame"));
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Numero invalido");
+            }
+        }
+
+        WriteObjectToFile(exame, fileExame.getPath());
+    }
+
+
     public static void deletaMedico(Medico medico, Listagem listagem, int index) {
         File fileMedico = procuraMedico(medico, listagem);
         fileMedico.delete();
@@ -336,6 +437,58 @@ public class Edicao {
         }
     }
 
+        public static void menuUploadExames(Scanner sc, Listagem listagem, ArrayList<Exame> exames) {
+        if (exames.isEmpty()) {
+            System.out.println("Nao existem exames expirados para fazer upload");
+            return;
+        }
+
+        System.out.println("Esses sao os exames disponiveis para upload de diagnostico e prescricao:\n");
+        int i = 0;
+        for (Exame c : exames) {
+            System.out.println(String.format("Exame %d", i + 1));
+            c.imprimeExame();
+            i++;
+        }
+
+        boolean sair = false;
+        while (!sair) {
+            System.out.println(
+                    "Favor digitar o numero do exame para fazer upload\n");
+            int option = sc.nextInt();
+            sc.nextLine();
+            if (exames.size() + 1 > option && option > 0) {
+                File fileExame = procuraExame(exames.get(option - 1), listagem);
+
+                System.out.println("Favor digitar o resultado do exame\n");
+                exames.get(option - 1).setResultado(sc.nextLine());
+
+                System.out.println("Deseja cadastrar uma imagem?\n1 - Sim\n2 - Nao\n");
+                int opcao = sc.nextInt();
+                sc.nextLine();
+                if (opcao == 1) {
+                    exames.get(option - 1).setImagem(Cadastro.leImagem(sc, "exame"));
+                }
+                System.out.println("Deseja cadastrar um video?\n1 - Sim\n2 - Nao\n");
+                opcao = sc.nextInt();
+                sc.nextLine();
+                if (opcao == 1) {
+                    exames.get(option - 1).setVideo(Cadastro.leVideo(sc, "exame"));
+                }
+
+                WriteObjectToFile(exames.get(option - 1), fileExame.getPath());
+
+                sair = true;
+                listagem.getExames().clear();
+                listagem.carregarExames();
+            } else {
+                System.out.println("Numero invalido");
+            }
+
+        }
+    }
+    
+
     public static void editaData(Scanner sc, Consulta consulta) {
         Calendar novaData = Cadastro.leData(sc, "da consulta");
         consulta.setData(novaData);
@@ -374,6 +527,16 @@ public class Edicao {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static boolean comparaExame(Exame x, Exame y) {
+        if (x == y)
+            return true;
+        if (x == null || y == null || x.getClass() != y.getClass())
+            return false;
+        return x.getNome().equals(y.getNome()) &&
+                x.getResultado().equals(y.getResultado())&&
+                x.getData().equals(y.getData());
     }
 
 

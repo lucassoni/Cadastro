@@ -56,12 +56,26 @@ public class Listagem {
         return infoeme;
     }
 
+    public ArrayList<Exame> getExames() {
+        return exames;
+    }
+
     public void carregarConsultas() {
         File file = new File("./resources/localStorage/consultas");
         if (file.exists()) {
             File[] consultas = file.listFiles();
             for (File c : consultas) {
                 this.consultas.add((Consulta) ReadObjectFromFile(c.getPath()));
+            }
+        }
+    }
+
+    public void carregarExames() {
+        File file = new File("./resources/localStorage/exames");
+        if (file.exists()) {
+            File[] exames = file.listFiles();
+            for (File e : exames) {
+                this.exames.add((Exame) ReadObjectFromFile(e.getPath()));
             }
         }
     }
@@ -153,6 +167,16 @@ public class Listagem {
         }
     }
 
+    public void listaExames() {
+        int i = 0;
+        System.out.println("\nExames cadastrados:");
+        for (Exame e : exames) {
+            System.out.println(String.format("Exame %d", i + 1));
+            e.imprimeExame();
+            i++;
+        }
+    }
+
     public void procuraConsultasDoDia() {
         Calendar hoje = Calendar.getInstance();
         ArrayList<Consulta> consultasHoje = new ArrayList<Consulta>();
@@ -179,7 +203,7 @@ public class Listagem {
         Calendar hoje = Calendar.getInstance();
         ArrayList<Consulta> consultasExpiradas = new ArrayList<Consulta>();
         for (Consulta c : this.consultas) {
-            if (c.getData().before(hoje)) {
+            if (c.getData().before(hoje) && c.getDiagnostico().equals("O diagnóstico ainda não foi cadastrado")) {
                 consultasExpiradas.add(c);
             }
         }
@@ -203,6 +227,56 @@ public class Listagem {
         return consultasExpiradas;
     }   
 
+    public void procuraExamesDoDia() {
+        Calendar hoje = Calendar.getInstance();
+        ArrayList<Exame> examesHoje = new ArrayList<Exame>();
+        for (Exame e : this.exames) {
+            if (e.getData().get(Calendar.YEAR) == hoje.get(Calendar.YEAR) &&
+                    e.getData().get(Calendar.MONTH) == hoje.get(Calendar.MONTH) &&
+                    e.getData().get(Calendar.DAY_OF_MONTH) == hoje.get(Calendar.DAY_OF_MONTH) &&
+                    e.getData().get(Calendar.HOUR_OF_DAY) >= hoje.get(Calendar.HOUR_OF_DAY) &&
+                    e.getData().get(Calendar.MINUTE) > hoje.get(Calendar.MINUTE)) {
+                examesHoje.add(e);
+            }
+        }
+        if (!examesHoje.isEmpty()) {
+            System.out.println("Estes exames estao marcados para hoje:");
+            for (Exame e : examesHoje) {
+                e.imprimeExame();
+            }
+        } else {
+            System.out.println("Nao existem exames marcados para hoje");
+        }
+    }
+
+    public void procuraExamesExpirados() {
+        Calendar hoje = Calendar.getInstance();
+        ArrayList<Exame> examesExpirados = new ArrayList<Exame>();
+        for (Exame e : this.exames) {
+            if (e.getData().before(hoje) && e.getResultado().equals("O resultado ainda não foi cadastrado")) {
+                examesExpirados.add(e);
+            }
+        }
+        if (!examesExpirados.isEmpty()) {
+            System.out.println("Estes exames estao expirados:");
+            for (Exame e : examesExpirados) {
+                e.imprimeExame();
+            }
+            System.out.println("Favor fazer upload do resultado desses exames!\n");
+        }
+    }
+
+    public ArrayList<Exame> resgataExamesExpirados() {
+        Calendar hoje = Calendar.getInstance();
+        ArrayList<Exame> examesExpirados = new ArrayList<Exame>();
+        for (Exame e : this.exames) {
+            if (e.getData().before(hoje)) {
+                examesExpirados.add(e);
+            }
+        }
+        return examesExpirados;
+    }
+
     public static void DisplayImage(String path) throws IOException {
         JFrame frame = new JFrame();
         ImageIcon icon = new ImageIcon(path);
@@ -217,4 +291,21 @@ public class Listagem {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    // DisplayVideo
+    public static void DisplayVideo(String path) throws IOException {
+        Desktop.getDesktop().open(new File(path));
+        // JFrame frame = new JFrame();
+        // JLabel label = new JLabel();
+        // frame.add(label);
+        // frame.pack();
+        // frame.setLayout(new FlowLayout());
+        // frame.setSize(800, 600);
+        // frame.setVisible(true);
+        // frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // frame.setTitle("Video");
+        // frame.setLocationRelativeTo(null);
+        // frame.setResizable(false);
+        // frame.setAlwaysOnTop(true);
+        // frame.setIconImage(Toolkit.getDefaultToolkit().getImage(path));
+    }
 }
