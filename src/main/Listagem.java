@@ -44,6 +44,10 @@ public class Listagem {
         return medicos;
     }
 
+    public ArrayList<Familiar> getFamiliares() {
+        return familiares;
+    }
+
     public ArrayList<Consulta> getConsultas() {
         return consultas;
     }
@@ -120,16 +124,22 @@ public class Listagem {
     }
 
     public void listaMedicos() {
+        int i = 0;
         System.out.println("\nMédicos cadastrados:");
         for (Medico m : medicos) {
+            System.out.println(String.format("Medico %d", i + 1));
             m.imprimeMedico();
+            i++;
         }
     }
 
     public void listaFamiliares() {
+        int i = 0;
         System.out.println("\nFamiliares cadastrados:");
         for (Familiar f : familiares) {
+            System.out.println(String.format("Familiar %d", i + 1));
             f.imprimeFamiliar();
+            i++;
         }
     }
 
@@ -193,28 +203,18 @@ public class Listagem {
         return consultasExpiradas;
     }   
 
-    public static void DisplayImage(String image) throws IOException {
-        System.out.println("\nCurrent path: " + System.getProperty("user.dir"));
-        System.out.println( "imagem path: " + image);
-        String path = "./resources/"+ image;
-
-        //new File(path);
-        // if(file.exists()) {
-        //     System.out.println("Existe!");
-        //     System.out.println(file.getCanonicalPath());
-        // }
-        BufferedImage img = ImageIO.read(Listagem.class.getResource("./localStorage/imagens/59006_2Q.png"));
-        JLabel picLabel = new JLabel(new ImageIcon(img));
-        // add(picLabel);
-        // ImageIcon icon = new ImageIcon(img);
-        // JFrame frame = new JFrame();
-        // frame.setLayout(new FlowLayout());
-        // frame.setSize(200, 300);
-        // JLabel lbl = new JLabel();
-        // lbl.setIcon(icon);
-        // frame.add(lbl);
-        // frame.setVisible(true);
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public static void DisplayImage(String path) throws IOException {
+        JFrame frame = new JFrame();
+        ImageIcon icon = new ImageIcon(path);
+        JLabel imageLabel = new JLabel(icon);
+        imageLabel.setBounds(10, 10, 400, 400);
+        imageLabel.setVisible(true);
+        frame.add(imageLabel);
+        frame.pack();
+        frame.setLayout(new FlowLayout());
+        frame.setSize(800, 600);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
 }

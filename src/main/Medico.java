@@ -35,7 +35,9 @@ public class Medico extends Pessoa {
         System.out.println("Endereco: ");
         System.out.println(getEndereco());
         System.out.println();
+    }
 
+    public void mostraImagem(){
         try {
             Listagem.DisplayImage(this.imagem);
         } catch (Exception e) {

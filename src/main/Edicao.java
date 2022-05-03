@@ -6,12 +6,21 @@ import java.util.Calendar;
 
 public class Edicao {
     public static void menuEdicaoConsulta(Scanner sc, Listagem listagem) {
+        ArrayList<Consulta> consultas = listagem.getConsultas();
+        if(consultas.size() == 0) {
+            System.out.println("\nNenhuma consulta cadastrada\n");
+            return;
+        }
+
         System.out.println("Escolha a consulta a ser editada\n");
         listagem.listaConsultas();
         int option = sc.nextInt();
         sc.nextLine();
 
-        ArrayList<Consulta> consultas = listagem.getConsultas();
+        if(option > consultas.size() || option < 1) {
+            System.out.println("\nNumero invalido\n");
+            return;
+        }
 
         Consulta consultaEscolhida = consultas.get(option - 1);
 
@@ -87,6 +96,204 @@ public class Edicao {
 
         WriteObjectToFile(consulta, fileConsulta.getPath());
     }
+
+    public static void menuEdicaoFamiliar(Scanner sc, Listagem listagem) {
+        ArrayList<Familiar> familiares = listagem.getFamiliares();
+        if(familiares.size() == 0){
+            System.out.println("Nenhum familiar cadastrado");
+            return;
+        }
+
+        System.out.println("Escolha o familiar a ser editado\n");
+        listagem.listaFamiliares();
+        int option = sc.nextInt();
+        sc.nextLine();
+
+        if(option > familiares.size() || option < 1) {
+            System.out.println("Numero invalido");
+            return;
+        }
+
+        Familiar familiarEscolhido = familiares.get(option - 1);
+
+        System.out.println("\nFamiliar escolhido:\n");
+        familiarEscolhido.imprimeFamiliar();
+
+        boolean sair = false;
+        while (!sair) {
+            System.out.println("Quer editar ou deletar o familiar?\nDigite 1 para editar\nDigite 2 para deletar\n");
+            option = sc.nextInt();
+            sc.nextLine();
+            switch (option) {
+                case 1:
+                    editaFamiliar(sc, familiarEscolhido, listagem);
+                    sair = true;
+                    break;
+                case 2:
+                    deletaFamiliar(familiarEscolhido, listagem, option - 1);
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Numero invalido");
+            }
+        }
+    }
+
+    public static File procuraFamiliar(Familiar familiar, Listagem listagem) {
+        File file = new File("./resources/localStorage/familiares");
+        File fileFamiliar = null;
+        if (file.exists()) {
+            File[] familiares = file.listFiles();
+            for (File c : familiares) {
+                Familiar candidata = (Familiar) ReadObjectFromFile(c.getPath());
+                if (comparaFamiliar(candidata, familiar)) {
+                    fileFamiliar = c;
+                }
+            }
+        }
+        return fileFamiliar;
+    }
+
+    public static void deletaFamiliar(Familiar familiar, Listagem listagem, int index) {
+        File fileFamiliar = procuraFamiliar(familiar, listagem);
+        fileFamiliar.delete();
+
+        ArrayList<Familiar> familiares = listagem.getFamiliares();
+        familiares.clear();
+        listagem.carregarFamiliares();
+    }
+
+    public static void editaFamiliar(Scanner sc, Familiar familiar, Listagem listagem) {
+        File fileFamiliar = procuraFamiliar(familiar, listagem);
+
+        boolean sair = false;
+        while (!sair) {
+            System.out.println(
+                    "Para editar o nome do familiar digite 1\nPara editar o telefone digite 2\n");
+            int option = sc.nextInt();
+            sc.nextLine();
+            switch (option) {
+                case 1:
+                    familiar.setNome(Cadastro.leNome(sc, "familiar"));
+                    sair = true;
+                    break;
+                case 2:
+                    familiar.setTelefone(Cadastro.leTelefone(sc, "de emergencia do familiar"));
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Numero invalido");
+            }
+        }
+
+        WriteObjectToFile(familiar, fileFamiliar.getPath());
+    }
+
+    public static void menuEdicaoMedico(Scanner sc, Listagem listagem) {
+        ArrayList<Medico> medicos = listagem.getMedicos();
+        if(medicos.size() == 0){
+            System.out.println("Nenhum medico cadastrado");
+            return;
+        }
+
+        System.out.println("Escolha o medico a ser editado\n");
+        listagem.listaMedicos();
+        int option = sc.nextInt();
+        sc.nextLine();
+
+        if(option > medicos.size() || option < 1) {
+            System.out.println("Numero invalido");
+            return;
+        }
+
+        Medico medicoEscolhido = medicos.get(option - 1);
+
+        System.out.println("\nMedico escolhido:\n");
+        medicoEscolhido.imprimeMedico();
+
+        boolean sair = false;
+        while (!sair) {
+            System.out.println("Quer editar ou deletar o medico?\nDigite 1 para editar\nDigite 2 para deletar\n");
+            option = sc.nextInt();
+            sc.nextLine();
+            switch (option) {
+                case 1:
+                    editaMedico(sc, medicoEscolhido, listagem);
+                    sair = true;
+                    break;
+                case 2:
+                    deletaMedico(medicoEscolhido, listagem, option - 1);
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Numero invalido");
+            }
+        }
+    }
+
+    public static File procuraMedico(Medico medico, Listagem listagem) {
+        File file = new File("./resources/localStorage/medicos");
+        File fileMedico = null;
+        if (file.exists()) {
+            File[] medicos = file.listFiles();
+            for (File c : medicos) {
+                Medico candidata = (Medico) ReadObjectFromFile(c.getPath());
+                if (comparaMedico(candidata, medico)) {
+                    fileMedico = c;
+                }
+            }
+        }
+        return fileMedico;
+    }
+
+    public static void deletaMedico(Medico medico, Listagem listagem, int index) {
+        File fileMedico = procuraMedico(medico, listagem);
+        fileMedico.delete();
+        File imagem = new File(medico.getImagem());
+        imagem.delete();
+
+        ArrayList<Medico> medicos = listagem.getMedicos();
+        medicos.clear();
+        listagem.carregarMedicos();
+    }
+
+    public static void editaMedico(Scanner sc, Medico medico, Listagem listagem) {
+        File fileMedico = procuraMedico(medico, listagem);
+
+        boolean sair = false;
+        while (!sair) {
+            System.out.println(
+                    "Para editar o nome do medico digite 1\nPara editar o telefone digite 2\nPara editar o endereço digite 3\nPara editar a imagem digite 4\n");
+            int option = sc.nextInt();
+            sc.nextLine();
+            switch (option) {
+                case 1:
+                    medico.setNome(Cadastro.leNome(sc, "medico"));
+                    sair = true;
+                    break;
+                case 2:
+                    medico.setTelefone(Cadastro.leTelefone(sc, "medico"));
+                    sair = true;
+                    break;
+                case 3:
+                    medico.setEndereco(Cadastro.leEndereco(sc, "medico"));
+                    sair = true;
+                    break;
+                case 4:
+                    File imagem = new File(medico.getImagem());
+                    imagem.delete();                
+                    medico.setImagem(Cadastro.leImagem(sc, "medico"));
+                    sair = true;
+                    break;
+
+                default:
+                    System.out.println("Numero invalido");
+            }
+        }
+
+        WriteObjectToFile(medico, fileMedico.getPath());
+    }
+
 
     public static void menuUpload(Scanner sc, Listagem listagem, ArrayList<Consulta> consultas) {
         if (consultas.isEmpty()) {
@@ -167,6 +374,16 @@ public class Edicao {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+
+    public static boolean comparaFamiliar(Familiar x, Familiar y) {
+        if (x == y)
+            return true;
+        if (x == null || y == null || x.getClass() != y.getClass())
+            return false;
+        return x.getNome().equals(y.getNome()) &&
+                x.getTelefone().equals(y.getTelefone());
     }
 
     public static boolean comparaMedico(Medico x, Medico y) {

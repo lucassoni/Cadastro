@@ -1,12 +1,11 @@
 import java.io.*;
-import java.util.Scanner;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.util.*;
 import java.text.SimpleDateFormat;
-import java.util.Random;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 
 public class Cadastro {
 
@@ -194,12 +193,16 @@ public class Cadastro {
 
         Random random = new Random();
         int numero = random.nextInt(100000);
-        String nomeArquivoNovo = numero + "_" + arquivo.getName();
+        String nomeArquivoNovo = numero + arquivo.getName();
         String caminho = "./resources/localStorage/imagens/" + nomeArquivoNovo;
-        String caminhoRetorno = "./localStorage/imagens/" + nomeArquivoNovo;
         File arquivoNovo = new File(caminho);
-
-        WriteObjectToFile((Object) arquivo, arquivoNovo.getPath());
+        arquivoNovo.getParentFile().mkdirs();
+        try {
+            Files.copy(arquivo.toPath(), arquivoNovo.toPath());
+        } catch (IOException e) {
+            System.out.println("Erro ao copiar arquivo.");
+            leImagem(sc, membro);
+        }
 
         return caminho;
     }

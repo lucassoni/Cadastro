@@ -14,7 +14,7 @@ public class App {
         listagem.procuraConsultasExpiradas();
         while (true) {
             System.out.printf(
-                    "Bem vindo %s\nPara cadastrar um familiar digite 1\nPara cadastrar um medico digite 2\nPara listar os medicos digite 3\nPara acessar o menu de consultas digite 4\nPara acessar o menu de info emergenciais 5\nPara sair digite 6\n",
+                    "Bem vindo %s\nPara acessar o menu de familiares digite 1\nPara acessar o menu de medicos digite 2\nPara acessar o menu de consultas digite 3\nPara acessar o menu de info emergenciais 4\nPara sair digite 5\n",
                     user.getNome());
 
             int option = sc.nextInt();
@@ -22,18 +22,86 @@ public class App {
 
             switch (option) {
                 case 1:
-                    Familiar familiar = Cadastro.leFamiliar(sc, listagem);
-                    familiar.imprimeFamiliar();
+                    boolean sair = false;
+                    while (!sair) {
+                        System.out.printf(
+                                "\nPara visualizar os familiares cadastrados digite 1\nPara editar os familiares digite 2\nPara cadastrar novos familiares digite 3\nPara voltar ao menu inicial digite 4\n");
+                        int optionConsult = sc.nextInt();
+                        sc.nextLine();
+
+                        switch (optionConsult) {
+                            case 1:
+                                listagem.listaFamiliares();
+                                break;
+                            case 2:
+                                Edicao.menuEdicaoFamiliar(sc, listagem);
+                                break;
+                            case 3:
+                                Familiar novoFamiliar = Cadastro.leFamiliar(sc, listagem);
+                                novoFamiliar.imprimeFamiliar();
+                                break;
+                            case 4:
+                                sair = true;
+                                break;
+                            default:
+                                System.out.println("\nNumero invalido");
+                        }
+                    }
                     break;
                 case 2:
-                    Medico medico = Cadastro.leMedico(sc, listagem);
-                    medico.imprimeMedico();
+                    sair = false;
+                    while (!sair) {
+                        System.out.printf(
+                                "\nPara visualizar os medicos cadastrados digite 1\nPara editar os medicos digite 2\nPara cadastrar novos medicos digite 3\nPara voltar ao menu inicial digite 4\n");
+                        int optionConsult = sc.nextInt();
+                        sc.nextLine();
+
+                        switch (optionConsult) {
+                            case 1:
+                                listagem.listaMedicos();
+                                sair = false;
+                                while (!sair) {
+                                    if(listagem.getMedicos().size() == 0) {
+                                        System.out.println("\nNenhum médico cadastrado\n");
+                                        sair = true;
+                                    } else {
+                                        System.out.printf("\nPara visualizar imagem de um medico digite 1\nPara voltar ao menu inicial digite 2\n");
+                                        optionConsult = sc.nextInt();
+                                        sc.nextLine();
+                                        switch (optionConsult) {
+                                            case 1:
+                                                System.out.printf("\nDigite o numero do medico\n");
+                                                option = sc.nextInt();
+                                                sc.nextLine();
+                                                listagem.getMedicos().get(option - 1).mostraImagem();
+                                                break;
+                                            case 2:
+                                                sair = true;
+                                                break;
+                                            default:
+                                            System.out.println("\nNumero invalido");
+                                        }
+                                    }
+                                }
+                                break;
+                            case 2:
+                                Edicao.menuEdicaoMedico(sc, listagem);
+                                break;
+                            case 3:
+                                Medico novoMedico = Cadastro.leMedico(sc, listagem);
+                                novoMedico.imprimeMedico();
+                                novoMedico.mostraImagem();
+                                break;
+                            case 4:
+                                sair = true;
+                                break;
+                            default:
+                                System.out.println("\nNumero invalido");
+                        }
+                    }
                     break;
                 case 3:
-                    listagem.listaMedicos();
-                    break;
-                case 4:
-                    boolean sair = false;
+                    sair = false;
                     while (!sair) {
                         System.out.printf(
                                 "\nPara visualizar consultas cadastradas digite 1\nPara editar consultas digite 2\nPara cadastrar novas consultas digite 3\nPara fazer upload de resultados de consulta, digite 4\nPara voltar ao menu inicial digite 5\n");
@@ -63,7 +131,7 @@ public class App {
                         }
                     }
                     break;
-                case 5:
+                case 4:
                     sair = false;
                     while (!sair) {
                         System.out.printf(
@@ -92,7 +160,7 @@ public class App {
                         }
                     }
                     break;
-                case 6:
+                case 5:
                     return;
                 default:
                     System.out.println("Numero invalido");
