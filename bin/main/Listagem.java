@@ -12,21 +12,13 @@ import javax.imageio.ImageIO;
 
 
 public class Listagem {
-    private static Listagem objeto;
     private ArrayList<Medico> medicos = new ArrayList<Medico>();
     private ArrayList<Consulta> consultas = new ArrayList<Consulta>();
     private ArrayList<Familiar> familiares = new ArrayList<Familiar>();
     private ArrayList<Exame> exames = new ArrayList<Exame>();
     private ArrayList<InfoEme> infoeme = new ArrayList<InfoEme>();
 
-    private Listagem() {
-    }
-
-    public static Listagem getInstance(){
-        if(objeto == null){
-            objeto = new Listagem();
-        }
-        return objeto;
+    public Listagem() {
     }
 
     public void addMedico(Medico medico) {
