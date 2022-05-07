@@ -1,14 +1,17 @@
 package src.main;
+
 import java.util.Scanner;
 import java.util.Calendar;
 import java.util.ArrayList;
-
+import java.lang.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        Class app = Class.forName("App");
+        System.out.println("a" + app.getPackageName());
         Scanner sc = new Scanner(System.in);
         Paciente user = Cadastro.lePaciente(sc);
-        Listagem listagem = Listagem.getInstance();
+        Listagem listagem = new Listagem();
         listagem.carregarMedicos();
         listagem.carregarFamiliares();
         listagem.carregarConsultas();
